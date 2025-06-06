@@ -8,12 +8,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import HistogramCard from "@/components/ui/HistogramCard";
-import NormalCurve from "@/components/ui/NormalCurve"; // ✅ Make sure this exists
+import NormalCurve from "@/components/ui/NormalCurve";
+import { RatingSystemDropdown } from "./components/ui/RatingSelectionDropdown";
 
 interface Player {
   id: number;
@@ -26,7 +27,7 @@ export default function App() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
   const [loopCount, setLoopCount] = useState(1);
-  const [averageDistance, setAverageDistance] = useState<number | null>(null);
+  const [updateType, setUpdateType] = useState("TrueSkill");
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
@@ -38,12 +39,6 @@ export default function App() {
       );
       const data: Player[] = await res.json();
       setPlayers(data);
-      const averageDistance =
-        data.reduce(
-          (acc, player) => acc + Math.abs(player.mu - player.trueSkill),
-          0
-        ) / data.length;
-      setAverageDistance(averageDistance);
 
       if (selectedPlayer) {
         const updated = data.find((p) => p.id === selectedPlayer.id);
@@ -74,7 +69,7 @@ export default function App() {
           {loading ? "Simulating..." : "Simulate Match"}
         </Button>
 
-        {/* <div className="flex flex-col">
+        <div className="flex flex-col">
           <Label
             htmlFor="loopCount"
             className="text-sm mb-1"
@@ -92,15 +87,10 @@ export default function App() {
             className="w-28"
             style={{ backgroundColor: "#121212", color: "#ffffff" }}
           />
-        </div> */}
+        </div>
 
-        <Button
-          variant="secondary"
-          style={{ color: "#ffffff" }}
-          onClick={resetSimulation}
-        >
-          Reset
-        </Button>
+        <Button onClick={resetSimulation}>Reset</Button>
+        <RatingSystemDropdown value={updateType} onChange={setUpdateType} />
 
         {selectedPlayer && (
           <div className="mt-4">
