@@ -21,6 +21,7 @@ func resetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func simulateStepHandler(w http.ResponseWriter, r *http.Request) {
+	const beta = 250
 	loopCount := 1 // default
 	if r.URL.Query().Has("loops") {
 		if val, err := strconv.Atoi(r.URL.Query().Get("loops")); err == nil && val > 0 {
@@ -51,11 +52,14 @@ func simulateStepHandler(w http.ResponseWriter, r *http.Request) {
 			p1 := players[i]
 			p2 := players[i+1]
 
-			p1Score := p1.TrueSkill + rand.NormFloat64()*50 // reduced randomness
-			p2Score := p2.TrueSkill + rand.NormFloat64()*50
-			p1Wins := p1Score > p2Score
+			// Simulate match outcome based on true skill + performance noise
+			p1Perf := p1.TrueSkill + rand.NormFloat64()*beta
+			p2Perf := p2.TrueSkill + rand.NormFloat64()*beta
+			p1Wins := p1Perf > p2Perf
 
-			trueskill.UpdateSkills(p1, p2, p1Wins, 100.0)
+			// Update rating estimate based on observed result
+			trueskill.EPUpdate(p1, p2, p1Wins, beta)
+
 		}
 
 		stepCount++
