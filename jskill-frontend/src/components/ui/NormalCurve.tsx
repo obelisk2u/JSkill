@@ -9,13 +9,15 @@ import {
 import { Line } from "react-chartjs-2";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMemo } from "react";
+import annotationPlugin from "chartjs-plugin-annotation";
 
 ChartJS.register(
   LineElement,
   PointElement,
   LinearScale,
   CategoryScale,
-  Tooltip
+  Tooltip,
+  annotationPlugin
 );
 
 interface NormalCurveProps {
@@ -55,6 +57,8 @@ export default function NormalCurve({
           fill: false,
           borderColor: "#3b82f6",
           tension: 0.2,
+          pointRadius: 0,
+          pointHoverRadius: 0,
         },
       ],
     };
@@ -70,7 +74,29 @@ export default function NormalCurve({
           data={data}
           options={{
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false },
+              annotation: {
+                annotations: {
+                  muLine: {
+                    type: "line",
+                    xMin: mu.toFixed(0),
+                    xMax: mu.toFixed(0),
+                    borderColor: "red",
+                    borderWidth: 2,
+                    label: {
+                      display: true,
+                      content: "μ",
+                      position: "start",
+                      color: "red",
+                      font: {
+                        weight: "bold",
+                      },
+                    },
+                  },
+                },
+              },
+            },
             scales: {
               x: {
                 grid: { color: "#374151" },

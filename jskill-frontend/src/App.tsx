@@ -91,7 +91,7 @@ export default function App() {
 
         {selectedPlayer && (
           <div className="mt-4">
-            <Button variant="ghost" onClick={() => setSelectedPlayer(null)}>
+            <Button onClick={() => setSelectedPlayer(null)}>
               Back to All Players
             </Button>
           </div>
