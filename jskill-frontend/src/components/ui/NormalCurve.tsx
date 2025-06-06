@@ -36,15 +36,15 @@ export default function NormalCurve({
   const data = useMemo(() => {
     const xs = [];
     const ys = [];
-    const minX = mu - 4 * sigma;
-    const maxX = mu + 4 * sigma;
+    const minX = 500;
+    const maxX = 2400;
     const step = (maxX - minX) / 100;
 
     for (let x = minX; x <= maxX; x += step) {
       const y =
         (1 / (sigma * Math.sqrt(2 * Math.PI))) *
         Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
-      xs.push(x.toFixed(0)); // or keep raw x for exact display
+      xs.push(x.toFixed(0));
       ys.push(y);
     }
 
@@ -55,7 +55,7 @@ export default function NormalCurve({
           label: "Density",
           data: ys,
           fill: false,
-          borderColor: "#3b82f6",
+          borderColor: "#f0f0f0", // consistent blue
           tension: 0.2,
           pointRadius: 0,
           pointHoverRadius: 0,
@@ -65,9 +65,9 @@ export default function NormalCurve({
   }, [mu, sigma]);
 
   return (
-    <Card className={className}>
+    <Card className={className} style={{ backgroundColor: "#121212" }}>
       <CardHeader>
-        <CardTitle className="text-white text-lg">{title}</CardTitle>
+        <CardTitle style={{ color: "#ffffff" }}>{title}</CardTitle>
       </CardHeader>
       <CardContent className="h-[300px]">
         <Line
@@ -77,34 +77,17 @@ export default function NormalCurve({
             plugins: {
               legend: { display: false },
               annotation: {
-                annotations: {
-                  muLine: {
-                    type: "line",
-                    xMin: mu.toFixed(0),
-                    xMax: mu.toFixed(0),
-                    borderColor: "red",
-                    borderWidth: 2,
-                    label: {
-                      display: true,
-                      content: "μ",
-                      position: "start",
-                      color: "red",
-                      font: {
-                        weight: "bold",
-                      },
-                    },
-                  },
-                },
+                annotations: {},
               },
             },
             scales: {
               x: {
-                grid: { color: "#374151" },
+                grid: { color: "#121212" },
                 ticks: { color: "#9ca3af" },
               },
               y: {
-                grid: { color: "#374151" },
-                ticks: { color: "#9ca3af" },
+                grid: { color: "#121212" },
+                ticks: { color: "#121212" },
               },
             },
           }}

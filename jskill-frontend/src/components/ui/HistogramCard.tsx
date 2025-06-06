@@ -27,7 +27,7 @@ interface HistogramCardProps {
 export default function HistogramCard({
   players,
   title = "Rating Distribution",
-  className = "w-1/2 bg-gray-900",
+  className = "w-1/2 bg-zinc-900",
 }: HistogramCardProps) {
   const bucketSize = 100;
   const maxRating = 3500;
@@ -56,15 +56,21 @@ export default function HistogramCard({
       {
         label: "Player Count",
         data: sortedEntries.map(([, count]) => count),
-        backgroundColor: "#3b82f6",
+        backgroundColor: "#f0f0f0",
       },
     ],
   };
 
   return (
-    <Card className={className}>
+    <Card
+      className={className}
+      style={{
+        backgroundColor: "#121212", // consistent with NormalCurve
+        color: "#ffffff",
+      }}
+    >
       <CardHeader>
-        <CardTitle className="text-white text-lg">{title}</CardTitle>
+        <CardTitle style={{ color: "#ffffff" }}>{title}</CardTitle>
       </CardHeader>
       <CardContent className="h-[500px]">
         <Bar
@@ -74,14 +80,19 @@ export default function HistogramCard({
             plugins: { legend: { display: false } },
             scales: {
               x: {
-                grid: { color: "#374151" },
-                title: { display: true, text: "Rating (μ)", color: "#fff" },
-                ticks: { color: "#fff" },
+                grid: { color: "#1f1f1f" },
+                title: {
+                  display: true,
+                  text: "Rating (μ)",
+                  color: "#ffffff",
+                  font: { weight: "bold" },
+                },
+                ticks: { color: "#9ca3af" },
               },
               y: {
                 beginAtZero: true,
-                grid: { color: "#374151" },
-                ticks: { color: "#fff" },
+                grid: { color: "#1f1f1f" },
+                ticks: { color: "#9ca3af" },
               },
             },
           }}

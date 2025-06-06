@@ -55,7 +55,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-950 text-white p-4">
+    <div
+      className="min-h-screen w-full"
+      style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}
+    >
       <h1 className="text-3xl font-bold mb-4">TrueSkill Simulation</h1>
 
       <div className="flex flex-wrap items-end gap-4 mb-6">
@@ -66,7 +69,8 @@ export default function App() {
         <div className="flex flex-col">
           <Label
             htmlFor="loopCount"
-            className="text-sm text-muted-foreground mb-1"
+            className="text-sm mb-1"
+            style={{ color: "#b0b0b0" }} // muted-foreground
           >
             Simulation Loops
           </Label>
@@ -77,13 +81,14 @@ export default function App() {
             max={100}
             value={loopCount}
             onChange={(e) => setLoopCount(Number(e.target.value))}
-            className="w-28 bg-gray-800 text-white"
+            className="w-28"
+            style={{ backgroundColor: "#121212", color: "#ffffff" }}
           />
         </div>
 
         <Button
           variant="secondary"
-          className="text-white"
+          style={{ color: "#ffffff" }}
           onClick={resetSimulation}
         >
           Reset
@@ -100,7 +105,7 @@ export default function App() {
 
       <div className="flex gap-6">
         {/* Table Card */}
-        <Card className="w-1/2 bg-gray-900">
+        <Card className="w-1/2" style={{ backgroundColor: "#121212" }}>
           <CardHeader>
             <CardTitle className="text-white text-lg">
               Top 10 Leaderboard
@@ -109,7 +114,7 @@ export default function App() {
           <CardContent className="overflow-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-800">
+                <TableRow style={{ backgroundColor: "#121212" }}>
                   <TableHead className="text-white">ID</TableHead>
                   <TableHead className="text-white">Current Rating</TableHead>
                   <TableHead className="text-white">True Rating</TableHead>
@@ -123,7 +128,7 @@ export default function App() {
                     <TableRow
                       className="cursor-pointer text-white"
                       key={player.id}
-                      onClick={() => setSelectedPlayer(player)} // ✅ Set selected player
+                      onClick={() => setSelectedPlayer(player)}
                     >
                       <TableCell>{player.id}</TableCell>
                       <TableCell>{player.mu.toFixed(2)}</TableCell>
@@ -135,13 +140,13 @@ export default function App() {
           </CardContent>
         </Card>
 
-        {/* Chart Area: Switch between Histogram and Player Distribution */}
+        {/* Chart Area */}
         {selectedPlayer ? (
           <NormalCurve
             mu={selectedPlayer.mu}
             sigma={selectedPlayer.sigma}
             title={`Player ${selectedPlayer.id} Skill Distribution`}
-            className="w-1/2 bg-gray-900"
+            className="w-1/2"
           />
         ) : (
           <HistogramCard players={players} />
