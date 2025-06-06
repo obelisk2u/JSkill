@@ -34,6 +34,10 @@ export default function HistogramCard({
   const minRating = 0;
   const buckets = new Map<number, number>();
 
+  const averageDistance =
+    players.reduce((sum, p) => sum + Math.abs(p.mu - p.trueSkill), 0) /
+    players.length;
+
   // Fill all buckets with 0 to ensure consistent display
   for (let r = minRating; r <= maxRating; r += bucketSize) {
     buckets.set(r, 0);
@@ -97,6 +101,9 @@ export default function HistogramCard({
             },
           }}
         />
+        <div className="text-center text-sm text-gray-400 mt-4">
+          Avg distance from TrueSkill: {averageDistance.toFixed(2)}
+        </div>
       </CardContent>
     </Card>
   );

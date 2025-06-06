@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import HistogramCard from "@/components/ui/HistogramCard";
@@ -26,7 +26,9 @@ export default function App() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
   const [loopCount, setLoopCount] = useState(1);
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null); // ✅ New
+  const [averageDistance, setAverageDistance] = useState<number | null>(null);
+
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const simulateMatch = async () => {
     setLoading(true);
@@ -36,6 +38,12 @@ export default function App() {
       );
       const data: Player[] = await res.json();
       setPlayers(data);
+      const averageDistance =
+        data.reduce(
+          (acc, player) => acc + Math.abs(player.mu - player.trueSkill),
+          0
+        ) / data.length;
+      setAverageDistance(averageDistance);
 
       if (selectedPlayer) {
         const updated = data.find((p) => p.id === selectedPlayer.id);
@@ -66,7 +74,7 @@ export default function App() {
           {loading ? "Simulating..." : "Simulate Match"}
         </Button>
 
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <Label
             htmlFor="loopCount"
             className="text-sm mb-1"
@@ -84,7 +92,7 @@ export default function App() {
             className="w-28"
             style={{ backgroundColor: "#121212", color: "#ffffff" }}
           />
-        </div>
+        </div> */}
 
         <Button
           variant="secondary"
@@ -143,6 +151,7 @@ export default function App() {
         {/* Chart Area */}
         {selectedPlayer ? (
           <NormalCurve
+            trueskill={selectedPlayer.trueSkill}
             mu={selectedPlayer.mu}
             sigma={selectedPlayer.sigma}
             title={`Player ${selectedPlayer.id} Skill Distribution`}

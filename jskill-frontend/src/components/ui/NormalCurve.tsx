@@ -21,6 +21,7 @@ ChartJS.register(
 );
 
 interface NormalCurveProps {
+  trueskill: number;
   mu: number;
   sigma: number;
   title?: string;
@@ -28,16 +29,18 @@ interface NormalCurveProps {
 }
 
 export default function NormalCurve({
+  trueskill,
   mu,
   sigma,
   title = "Normal Curve",
   className = "",
 }: NormalCurveProps) {
+  const averageDistance = Math.abs(mu - trueskill);
   const data = useMemo(() => {
     const xs = [];
     const ys = [];
     const minX = 500;
-    const maxX = 2400;
+    const maxX = 3500;
     const step = (maxX - minX) / 100;
 
     for (let x = minX; x <= maxX; x += step) {
@@ -69,11 +72,12 @@ export default function NormalCurve({
       <CardHeader>
         <CardTitle style={{ color: "#ffffff" }}>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="h-[300px]">
+      <CardContent className="h-[300px] pt-16 flex flex-col items-center justify-center">
         <Line
           data={data}
           options={{
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: { display: false },
               annotation: {
@@ -92,6 +96,16 @@ export default function NormalCurve({
             },
           }}
         />
+
+        <div className="text-center text-md text-gray-300 mt-2">
+          Current Rating: {mu.toFixed(0)}
+        </div>
+        <div className="text-center text-md text-gray-300 mt-1">
+          True Rating: {trueskill.toFixed(0)}
+        </div>
+        <div className="text-center text-md text-gray-300 mt-1">
+          Distance from True Rating: {averageDistance.toFixed(0)}
+        </div>
       </CardContent>
     </Card>
   );
