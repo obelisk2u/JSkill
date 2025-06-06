@@ -80,7 +80,7 @@ export default function HistogramCard({
             plugins: { legend: { display: false } },
             scales: {
               x: {
-                grid: { color: "#1f1f1f" },
+                grid: { color: "#121212" },
                 title: {
                   display: true,
                   text: "Rating (μ)",
@@ -91,7 +91,7 @@ export default function HistogramCard({
               },
               y: {
                 beginAtZero: true,
-                grid: { color: "#1f1f1f" },
+                grid: { color: "#121212" },
                 ticks: { color: "#9ca3af" },
               },
             },
