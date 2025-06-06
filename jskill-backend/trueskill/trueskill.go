@@ -63,7 +63,7 @@ func EPUpdate(p1, p2 *Player, p1Wins bool, beta float64) {
 	sig2Squared := sig2 * sig2 * (1 - (sig2 * sig2 / cSquared) * w)
 
 	// Floor enforcement
-	const sigmaFloor = 10.0
+	const sigmaFloor = 50.0
 	sig1New := math.Sqrt(math.Max(sig1Squared, sigmaFloor*sigmaFloor))
 	sig2New := math.Sqrt(math.Max(sig2Squared, sigmaFloor*sigmaFloor))
 

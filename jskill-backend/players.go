@@ -2,14 +2,12 @@ package main
 
 import (
 	"math/rand"
-	"fmt"
 	"github.com/obelisk2u/jskillbackend/trueskill"
 )
 
 var players []*trueskill.Player
 
-func initPlayers(n int) {
-	fmt.Println("Initializing players")  
+func initPlayers(n int) { 
 	players = make([]*trueskill.Player, n)
 	for i := 0; i < n; i++ {
 		trueSkill := rand.Float64()*1500 + 750 

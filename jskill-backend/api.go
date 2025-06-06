@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
-	"fmt"
 	"sort"
 	"strconv"
 )
@@ -13,14 +12,13 @@ import "github.com/obelisk2u/jskillbackend/trueskill"
 
 var stepCount int = 0
 
-func resetHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Resetting")  
+func resetHandler(w http.ResponseWriter, r *http.Request) { 
 	initPlayers(1000)    
 	stepCount = 0    
 	w.WriteHeader(http.StatusOK)
 }
 
-func simulateStepHandler(w http.ResponseWriter, r *http.Request) {
+func simulateTSStepHandler(w http.ResponseWriter, r *http.Request) {
 	const beta = 250
 	loopCount := 1 // default
 	if r.URL.Query().Has("loops") {
