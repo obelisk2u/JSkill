@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	initPlayers(100)
+	initPlayers(1000)
 
 	http.HandleFunc("/simulate", simulateStepHandler)
 	http.HandleFunc("/reset", resetHandler)
