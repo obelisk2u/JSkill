@@ -18,7 +18,7 @@ func resetHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func simulateTSStepHandler(w http.ResponseWriter, r *http.Request) {
+func simulateStepHandler(w http.ResponseWriter, r *http.Request) {
 	const beta = 250
 	loopCount := 1 // default
 	if r.URL.Query().Has("loops") {
@@ -27,6 +27,7 @@ func simulateTSStepHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	updateType := r.URL.Query().Get("updateType")
 	rand.Seed(time.Now().UnixNano())
 
 	for l := 0; l < loopCount; l++ {
@@ -50,13 +51,16 @@ func simulateTSStepHandler(w http.ResponseWriter, r *http.Request) {
 			p1 := players[i]
 			p2 := players[i+1]
 
-			// Simulate match outcome based on true skill + performance noise
 			p1Perf := p1.TrueSkill + rand.NormFloat64()*beta
 			p2Perf := p2.TrueSkill + rand.NormFloat64()*beta
 			p1Wins := p1Perf > p2Perf
 
-			// Update rating estimate based on observed result
-			trueskill.EPUpdate(p1, p2, p1Wins, beta)
+			switch updateType {
+				case "ELO":
+					trueskill.EloUpdate(p1, p2, p1Wins, 32)
+				default:
+					trueskill.EPUpdate(p1, p2, p1Wins, beta)
+				}
 
 		}
 

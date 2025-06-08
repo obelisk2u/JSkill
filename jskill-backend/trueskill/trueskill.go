@@ -7,18 +7,7 @@ type Player struct {
 	Mu            float64 `json:"mu"`
 	Sigma         float64 `json:"sigma"`
 	TrueSkill     float64 `json:"trueSkill"`
-	MatchesPlayed int     `json:"matchesPlayed"`
-}
-
-
-// NewPlayer creates a player with default TrueSkill params (mu=1500, sigma=500)
-func NewPlayer(id int, trueSkill float64) Player {
-	return Player{
-		ID:        id,
-		Mu:        1500,
-		Sigma:     500,
-		TrueSkill: trueSkill,
-	}
+	Elo           float64 `json:"elo"`
 }
 
 func phi(x float64) float64 {
@@ -73,4 +62,24 @@ func EPUpdate(p1, p2 *Player, p1Wins bool, beta float64) {
 	p2.Sigma = sig2New
 }
 
+func EloUpdate(p1, p2 *Player, p1Wins bool, k float64) {
+	// Compute expected scores
+	r1 := math.Pow(10, p1.Elo/400)
+	r2 := math.Pow(10, p2.Elo/400)
+
+	e1 := r1 / (r1 + r2)
+	e2 := r2 / (r1 + r2)
+
+	// Actual scores
+	var s1, s2 float64
+	if p1Wins {
+		s1, s2 = 1.0, 0.0
+	} else {
+		s1, s2 = 0.0, 1.0
+	}
+
+	// Update ratings
+	p1.Elo += k * (s1 - e1)
+	p2.Elo += k * (s2 - e2)
+}
 
