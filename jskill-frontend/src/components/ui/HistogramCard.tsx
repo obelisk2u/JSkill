@@ -16,18 +16,21 @@ interface Player {
   mu: number;
   sigma: number;
   trueSkill: number;
+  elo: number;
 }
 
 interface HistogramCardProps {
   players: Player[];
   title?: string;
   className?: string;
+  updateType?: string;
 }
 
 export default function HistogramCard({
   players,
   title = "Rating Distribution",
   className = "w-1/2 bg-zinc-900",
+  updateType = "",
 }: HistogramCardProps) {
   const bucketSize = 100;
   const maxRating = 3500;
@@ -45,7 +48,8 @@ export default function HistogramCard({
 
   // Count players into buckets
   players.forEach((p) => {
-    let rounded = Math.round(p.mu / bucketSize) * bucketSize;
+    const rating = updateType === "TrueSkill" ? p.mu : p.elo;
+    let rounded = Math.round(rating / bucketSize) * bucketSize;
     rounded = Math.max(minRating, Math.min(maxRating, rounded));
     buckets.set(rounded, (buckets.get(rounded) || 0) + 1);
   });

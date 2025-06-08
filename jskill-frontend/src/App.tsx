@@ -21,6 +21,7 @@ interface Player {
   mu: number;
   sigma: number;
   trueSkill: number;
+  elo: number;
 }
 
 export default function App() {
@@ -35,14 +36,15 @@ export default function App() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/simulate?loops=${loopCount}`
+        `http://localhost:8080/simulate?loops=${loopCount}&updateType=${updateType}`
       );
+
       const data: Player[] = await res.json();
       setPlayers(data);
 
       if (selectedPlayer) {
         const updated = data.find((p) => p.id === selectedPlayer.id);
-        if (updated) setSelectedPlayer(updated); // ✅ Sync latest values
+        if (updated) setSelectedPlayer(updated);
       }
     } catch (err) {
       console.error("Simulation error:", err);
@@ -54,7 +56,7 @@ export default function App() {
   const resetSimulation = async () => {
     await fetch("http://localhost:8080/reset", { method: "POST" });
     setPlayers([]);
-    setSelectedPlayer(null); // ✅ Reset view
+    setSelectedPlayer(null);
   };
 
   return (
@@ -73,7 +75,7 @@ export default function App() {
           <Label
             htmlFor="loopCount"
             className="text-sm mb-1"
-            style={{ color: "#b0b0b0" }} // muted-foreground
+            style={{ color: "#b0b0b0" }}
           >
             Simulation Loops
           </Label>
@@ -92,7 +94,7 @@ export default function App() {
         <Button onClick={resetSimulation}>Reset</Button>
         <RatingSystemDropdown value={updateType} onChange={setUpdateType} />
 
-        {selectedPlayer && (
+        {selectedPlayer && updateType == "TrueSkill" && (
           <div className="mt-4">
             <Button onClick={() => setSelectedPlayer(null)}>
               Back to All Players
@@ -129,7 +131,12 @@ export default function App() {
                       onClick={() => setSelectedPlayer(player)}
                     >
                       <TableCell>{player.id}</TableCell>
-                      <TableCell>{player.mu.toFixed(2)}</TableCell>
+                      <TableCell>
+                        {updateType === "ELO"
+                          ? player.elo.toFixed(2)
+                          : player.mu.toFixed(2)}
+                      </TableCell>
+
                       <TableCell>{player.trueSkill.toFixed(2)}</TableCell>
                     </TableRow>
                   ))}
@@ -139,7 +146,7 @@ export default function App() {
         </Card>
 
         {/* Chart Area */}
-        {selectedPlayer ? (
+        {selectedPlayer && updateType == "TrueSkill" ? (
           <NormalCurve
             trueskill={selectedPlayer.trueSkill}
             mu={selectedPlayer.mu}
@@ -148,7 +155,7 @@ export default function App() {
             className="w-1/2"
           />
         ) : (
-          <HistogramCard players={players} />
+          <HistogramCard players={players} updateType={updateType} />
         )}
       </div>
     </div>
