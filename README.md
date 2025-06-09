@@ -60,12 +60,13 @@ Runs on `http://localhost:5173`
 - **Visualize Convergence**: Histogram shows how player ratings evolve over time.
 - **Sorting**: Table can be sorted by player ID, rating (μ), or true skill.
 - **Adjustable Loops**: Input the number of simulation loops to run per step.
+- **Skill Update Type**: Change the skill updating algorithm (Elo/TrueSkill)
 - **Reset**: Clear and restart all ratings.
 
 ## 📊 Math & Modeling
 
 - Ratings follow a simplified version of the TrueSkill algorithm, using Gaussian assumptions.
-- Sigma (uncertainty) is updated per match and floored to prevent overconfidence.
+- Sigma (uncertainty) is updated per match and floored (0.2) to prevent overconfidence.
 - Players are matched with opponents of similar current skill to accelerate convergence.
 
 ## 📦 Dependencies
