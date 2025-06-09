@@ -15,7 +15,7 @@ func initPlayers(n int) {
 			ID:        i + 1,
 			Mu:        1500.0,
 			Sigma:     300.0,
-			TrueSkill: trueRating,
+			TrueRanking: trueRating,
 			Elo:       1500,
 		}
 	}

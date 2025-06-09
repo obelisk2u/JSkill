@@ -28,7 +28,7 @@ func logPlayersToCSV(filename string, step int) error {
 			strconv.Itoa(p.ID),
 			fmt.Sprintf("%.2f", p.Mu),
 			fmt.Sprintf("%.2f", p.Sigma),
-			fmt.Sprintf("%.2f", p.TrueSkill),
+			fmt.Sprintf("%.2f", p.TrueRanking),
 		}
 		writer.Write(record)
 	}

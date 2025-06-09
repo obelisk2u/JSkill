@@ -51,8 +51,8 @@ func simulateStepHandler(w http.ResponseWriter, r *http.Request) {
 			p1 := players[i]
 			p2 := players[i+1]
 
-			p1Perf := p1.TrueSkill + rand.NormFloat64()*beta
-			p2Perf := p2.TrueSkill + rand.NormFloat64()*beta
+			p1Perf := p1.TrueRanking + rand.NormFloat64()*beta
+			p2Perf := p2.TrueRanking + rand.NormFloat64()*beta
 			p1Wins := p1Perf > p2Perf
 
 			switch updateType {
