@@ -2,7 +2,7 @@
 
 This project is a full-stack application that simulates TrueSkill-based matchmaking and rating evolution for a population of players. It features:
 
-- A Go backend that updates ratings using a simplified TrueSkill algorithm.
+- A Go backend that updates ratings using the TrueSkill algorithm with expectation propegation.
 - A React + Vite + Tailwind + ShadCN UI frontend that visualizes player ratings and convergence.
 - A histogram chart showing rating distribution over time.
 - Adjustable simulation loop count and reset functionality.

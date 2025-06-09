@@ -1,6 +1,6 @@
 import { useSimulation } from "@/features/simulation/useSimulation";
 import SimulationControls from "@/components/ui/SimulationControls";
-import LeaderboardTable from "@/components/ui/LeaderBoardTable";
+import LeaderboardTable from "@/components/ui/LeaderboardTable";
 import PlayerDistributionChart from "@/components/ui/PlayerDistributionChart";
 
 export default function Simulation() {
@@ -19,7 +19,7 @@ export default function Simulation() {
 
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a] text-white px-6 py-4">
-      <h1 className="text-3xl font-bold mb-4">TrueSkill Simulation</h1>
+      <h1 className="text-3xl font-bold mb-4">JSkill Simulation</h1>
       <SimulationControls
         loopCount={loopCount}
         loading={loading}
