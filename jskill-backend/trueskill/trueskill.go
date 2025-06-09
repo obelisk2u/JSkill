@@ -64,8 +64,8 @@ func EPUpdate(p1, p2 *Player, p1Wins bool, beta float64) {
 
 func EloUpdate(p1, p2 *Player, p1Wins bool, k float64) {
 	// Compute expected scores
-	r1 := math.Pow(10, p1.Elo/400)
-	r2 := math.Pow(10, p2.Elo/400)
+	r1 := math.Pow(10, p1.TrueSkill/400)
+	r2 := math.Pow(10, p2.TrueSkill/400)
 
 	e1 := r1 / (r1 + r2)
 	e2 := r2 / (r1 + r2)
